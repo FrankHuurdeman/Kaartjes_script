@@ -1,4 +1,2 @@
 # Kaartjes_script
-Dit is mijn project om te oefenen met Visual Studio Coder en daarnaast wilde ik gewoon graag een kaartje met mijn vakantie plekken dus vandaar!
-
-Kijk karlijntje, zo gaat dat!
+Hallo allemaal, hier is niet zo veel te zien. Ik gebruik deze repository om te oefenen met codebeheer via GitHub en het schrijven van code via VS code. Het project is om een kaartje te maken waar ik relatief makkelijk handmatig vakantie locaties op kan toevoegen zodat ik deze kan gebruiken op mijn eigen notion pagina. Leuk hoor! :D 
