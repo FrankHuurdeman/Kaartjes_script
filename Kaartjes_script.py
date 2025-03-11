@@ -30,7 +30,7 @@ if amersfoort_coords and potsdam_coords and barcelona_coords:
     folium.Marker(amersfoort_coords, popup="Amersfoort").add_to(m)
     folium.Marker(potsdam_coords, popup="Potsdam").add_to(m)
     folium.Marker(barcelona_coords, popup="Barcelona").add_to(m)
-    folium.Marker(orebro_coords, popup="Onsliefdesstadje").add_to(m)
+    folium.Marker(orebro_coords, popup="Onsliefdesstadje_jwz").add_to(m)
 
     # Sla de kaart op als HTML-bestand
     m.save("index.html")
