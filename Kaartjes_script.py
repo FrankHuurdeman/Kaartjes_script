@@ -1,13 +1,12 @@
+# Importeren benodigde packages
+
 import folium
 from geopy.geocoders import Nominatim
-
-# Functie om de coördinaten op te halen via OSM
-from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderTimedOut
 import time
 
+# Schrijven functie voor het ophalen van de OSM gegeven
 def get_coordinates(city_name):
-    geolocator = Nominatim(user_agent="osm_map", timeout=5)  # Timeout toegevoegd
+    geolocator = Nominatim(user_agent="osm_map", timeout=5)
 
     try:
         location = geolocator.geocode(city_name)
@@ -17,19 +16,42 @@ def get_coordinates(city_name):
             return None
     except GeocoderTimedOut:
         print(f"Timeout bij ophalen van: {city_name}, opnieuw proberen...")
-        time.sleep(2)  # Wacht 2 seconden en probeer opnieuw
-        return get_coordinates(city_name)  # Herhaal de aanvraag
+        time.sleep(2)  
+        return get_coordinates(city_name)  
 
-# Coördinaten ophalen voor de reislocaties
+# Coördinaten ophalen voor de reislocaties Nederland
 amersfoort_coords = get_coordinates("Amersfoort, Netherlands")
-potsdam_coords = get_coordinates("Potsdam, Germany")
-barcelona_coords = get_coordinates("Barcelona, Spain")
-orebro_coords = get_coordinates("Orebro, Sweden")
 nieuwpoort_coords = get_coordinates("Nieuwpoort, Netherlands")
-vienna_coords = get_coordinates("Vienna, Austria")
 rotterdam_coords = get_coordinates("Rotterdam, Netherlands")
 maastricht_coords = get_coordinates("Maastricht, Netherlands")
+leeuwarden_coords = get_coordinates("Leeuwarden, Netherlands")
+amsterdam_coords = get_coordinates("Amsterdam, Netherlands")
+utrecht_coords = get_coordinates("Utrecht, Netherlands")
+zwolle_coords = get_coordinates("Zwolle, Netherlands")
+denhaag_coords = get_coordinates("Den Haag, Netherlands")
+
+# Coordinaten ophalen voor de reislocaties van Duitsland
+potsdam_coords = get_coordinates("Potsdam, Germany")
 hamburg_coords = get_coordinates("Hamburg, Germany")
+berlijn_coords = get_coordinates("Berlin, Germany")
+leipzig_coords = get_coordinates("Leipzig, Germany")
+osnabruck_coords = get_coordinates("Osnabruck, Germany")
+dusseldorf_coords = get_coordinates("Dusseldorf, Germany")
+stuttgart_coords = get_coordinates("Stuttgart, Germany")
+ludwigsburg_coords = get_coordinates("Ludwigsburg, Germany")
+frankfurt_coords = get_coordinates("Frankfurt, Germany")
+uberlingen_coords = get_coordinates("Uberlingen, Germany")
+hannover_coords = get_coordinates("Hannover, Germany")
+esslingen_coords = get_coordinates("Esslingen, Germany")
+trier_coords = get_coordinates("Trier, Germany")
+
+# Coordinaten ophalen voor reislocaties van Frankrijk
+parijs_coords = get_coordinates("Paris, France")
+avignon_coords = get_coordinates("Avignon, France")
+
+barcelona_coords = get_coordinates("Barcelona, Spain")
+orebro_coords = get_coordinates("Orebro, Sweden")
+vienna_coords = get_coordinates("Vienna, Austria")
 bremen_coords = get_coordinates("Bremen, Germany")
 kopenhagen_coords = get_coordinates("Copenhagen, Denmark")
 stockholm_coords = get_coordinates("Stockholm, Sweden")
@@ -39,54 +61,53 @@ trondheim_coords = get_coordinates("Trondheim, Norway")
 lillehammer_coords = get_coordinates("Lillehammer, Norway")
 goteborg_coords = get_coordinates("Gothenburg, Sweden")
 
-# Controleer of de coördinaten correct zijn
-if all([
-    amersfoort_coords, potsdam_coords, barcelona_coords, orebro_coords, nieuwpoort_coords, vienna_coords,
-    rotterdam_coords, maastricht_coords, hamburg_coords, bremen_coords, kopenhagen_coords, stockholm_coords,
-    narvik_coords, ostersund_coords, trondheim_coords, lillehammer_coords, goteborg_coords
-]):
-    print(f"Amersfoort: {amersfoort_coords}")
-    print(f"Potsdam: {potsdam_coords}")
-    print(f"Barcelona: {barcelona_coords}")
-    print(f"Orebro: {orebro_coords}")
-    print(f"Vienna: {vienna_coords}")
-    print(f"Nieuwpoort: {nieuwpoort_coords}")
-    print(f"Rotterdam: {rotterdam_coords}")
-    print(f"Maastricht: {maastricht_coords}")
-    print(f"Hamburg: {hamburg_coords}")
-    print(f"Bremen: {bremen_coords}")
-    print(f"Kopenhagen: {kopenhagen_coords}")
-    print(f"Stockholm: {stockholm_coords}")
-    print(f"Narvik: {narvik_coords}")
-    print(f"Östersund: {ostersund_coords}")
-    print(f"Trondheim: {trondheim_coords}")
-    print(f"Lillehammer: {lillehammer_coords}")
-    print(f"Göteborg: {goteborg_coords}")
-
     # Maak een folium kaart
-    m = folium.Map(location=[52.0907, 13.2395], zoom_start=6)  # Beginlocatie ergens in Europa
+m = folium.Map(location=[52.0907, 13.2395], zoom_start=6)  # Beginlocatie ergens in Europa
 
-    # Voeg markers toe voor alle reislocaties
-    folium.Marker(amersfoort_coords, popup="Amersfoort").add_to(m)
-    folium.Marker(potsdam_coords, popup="Potsdam").add_to(m)
-    folium.Marker(barcelona_coords, popup="Barcelona").add_to(m)
-    folium.Marker(orebro_coords, popup="Onsliefdesstadje_jwz").add_to(m)
-    folium.Marker(nieuwpoort_coords, popup= "Geboortestadje", icon=folium.Icon(color="blue")).add_to(m)
-    folium.Marker(vienna_coords, popup= "Wenen", icon=folium.Icon(color="red")).add_to(m)
-    folium.Marker(rotterdam_coords, popup="Rotterdam").add_to(m)
-    folium.Marker(maastricht_coords, popup="Maastricht").add_to(m)
-    folium.Marker(hamburg_coords, popup="Hamburg").add_to(m)
-    folium.Marker(bremen_coords, popup="Bremen").add_to(m)
-    folium.Marker(kopenhagen_coords, popup="Kopenhagen").add_to(m)
-    folium.Marker(stockholm_coords, popup="Stockholm").add_to(m)
-    folium.Marker(narvik_coords, popup="Narvik").add_to(m)
-    folium.Marker(ostersund_coords, popup="Östersund").add_to(m)
-    folium.Marker(trondheim_coords, popup="Trondheim").add_to(m)
-    folium.Marker(lillehammer_coords, popup="Lillehammer").add_to(m)
-    folium.Marker(goteborg_coords, popup="Göteborg").add_to(m)
+Amersfoort_potsdam = [amersfoort_coords, hannover_coords, berlijn_coords, potsdam_coords]
 
-    # Sla de kaart op als HTML-bestand
-    m.save("index.html")
-    print("Kaart opgeslagen als 'index.html'.")
-else:
-    print("Kon de coördinaten niet ophalen voor een of beide steden.")
+locations = {
+    "Amersfoort": amersfoort_coords,
+    "Nieuwpoort": nieuwpoort_coords,
+    "Rotterdam": rotterdam_coords,
+    "Maastricht": maastricht_coords,
+    "Leeuwarden": leeuwarden_coords,
+    "Amsterdam": amsterdam_coords,
+    "Utrecht": utrecht_coords,
+    "Zwolle": zwolle_coords,
+    "Den Haag": denhaag_coords,
+    "Potsdam": potsdam_coords,
+    "Hamburg": hamburg_coords,
+    "Berlijn": berlijn_coords,
+    "Leipzig": leipzig_coords,
+    "Osnabruck": osnabruck_coords,
+    "Dusseldorf": dusseldorf_coords,
+    "Stuttgart": stuttgart_coords,
+    "Ludwigsburg": ludwigsburg_coords,
+    "Frankfurt": frankfurt_coords,
+    "Uberlingen": uberlingen_coords,
+    "Barcelona": barcelona_coords,
+    "Orebro": orebro_coords,
+    "Vienna": vienna_coords,
+    "Bremen": bremen_coords,
+    "Kopenhagen": kopenhagen_coords,
+    "Stockholm": stockholm_coords,
+    "Narvik": narvik_coords,
+    "Östersund": ostersund_coords,
+    "Trondheim": trondheim_coords,
+    "Lillehammer": lillehammer_coords,
+    "Gothenburg": goteborg_coords,
+    "Hannover": hannover_coords,
+    "Esslingen": esslingen_coords,
+    "Trier": trier_coords,
+    "Parijs": parijs_coords,
+    "Avignon": avignon_coords
+}
+
+for city, coords in locations.items():
+    folium.Marker(coords, popup=city).add_to(m)
+
+folium.PolyLine(Amersfoort_potsdam, color="blue", weight=2.5, opacity=1).add_to(m)
+
+m.save(r"Kaartjes_script\index.html")
+print("Kaart opgeslagen als 'index.html'.")
