@@ -29,6 +29,7 @@ amsterdam_coords = get_coordinates("Amsterdam, Netherlands")
 utrecht_coords = get_coordinates("Utrecht, Netherlands")
 zwolle_coords = get_coordinates("Zwolle, Netherlands")
 denhaag_coords = get_coordinates("Den Haag, Netherlands")
+hilversum_coords = get_coordinates("Hilversum, Netherlands")
 
 # Coordinaten ophalen voor de reislocaties van Duitsland
 potsdam_coords = get_coordinates("Potsdam, Germany")
@@ -44,16 +45,37 @@ uberlingen_coords = get_coordinates("Uberlingen, Germany")
 hannover_coords = get_coordinates("Hannover, Germany")
 esslingen_coords = get_coordinates("Esslingen, Germany")
 trier_coords = get_coordinates("Trier, Germany")
+bremen_coords = get_coordinates("Bremen, Germany")
 
 # Coordinaten ophalen voor reislocaties van Frankrijk
 parijs_coords = get_coordinates("Paris, France")
 avignon_coords = get_coordinates("Avignon, France")
 
+# Coordinaten ophalen voor reislocaties van Spanje
 barcelona_coords = get_coordinates("Barcelona, Spain")
-orebro_coords = get_coordinates("Orebro, Sweden")
+
+# Coordinaten ophalen voor reislocaties van Italie
+verona_coords = get_coordinates("Verona, Italy")
+venice_coords = get_coordinates("Verince, Italy")
+feltre_coords = get_coordinates("Feltre, Italy")
+
+# Coordinate ophalen voor reislocaties van Zwitserland
+interlaken_coords = get_coordinates("Interlaken, Suiss")
+
+# Coordinaten ophalen voor reislocaties van Kroatie
+zagreb_coords = get_coordinates("Zagreb, Croatia")
+split_coords = get_coordinates("Split, Croatia")
+
+# Coordinaten ophalen voor reislocaties van Oostenrijk
 vienna_coords = get_coordinates("Vienna, Austria")
-bremen_coords = get_coordinates("Bremen, Germany")
+
+# Coordinaten ophalen voor reislocaties van Denemarken
 kopenhagen_coords = get_coordinates("Copenhagen, Denmark")
+roskilde_coords = get_coordinates("Roskilde, Denmark")
+
+# Coordinaten
+
+orebro_coords = get_coordinates("Orebro, Sweden")
 stockholm_coords = get_coordinates("Stockholm, Sweden")
 narvik_coords = get_coordinates("Narvik, Norway")
 ostersund_coords = get_coordinates("Östersund, Sweden")
@@ -63,8 +85,6 @@ goteborg_coords = get_coordinates("Gothenburg, Sweden")
 
     # Maak een folium kaart
 m = folium.Map(location=[52.0907, 13.2395], zoom_start=6)  # Beginlocatie ergens in Europa
-
-Amersfoort_potsdam = [amersfoort_coords, hannover_coords, berlijn_coords, potsdam_coords]
 
 locations = {
     "Amersfoort": amersfoort_coords,
@@ -101,13 +121,12 @@ locations = {
     "Esslingen": esslingen_coords,
     "Trier": trier_coords,
     "Parijs": parijs_coords,
-    "Avignon": avignon_coords
+    "Avignon": avignon_coords,
+    "Hilversum": hilversum_coords
 }
 
 for city, coords in locations.items():
     folium.Marker(coords, popup=city).add_to(m)
-
-folium.PolyLine(Amersfoort_potsdam, color="blue", weight=2.5, opacity=1).add_to(m)
 
 m.save(r"Kaartjes_script\index.html")
 print("Kaart opgeslagen als 'index.html'.")
