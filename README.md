@@ -1,2 +1,2 @@
 # Kaartjes_script
-Hallo allemaal, hier is niet zo veel te zien. Ik gebruik deze repository om te oefenen met codebeheer via GitHub en het schrijven van code via VS code. Het project is om een kaartje te maken waar ik relatief makkelijk handmatig vakantie locaties op kan toevoegen zodat ik deze kan gebruiken op mijn eigen notion pagina. Leuk hoor! :D  Testje
+Dit stuk script en de output HTML is een project om te oefenen met Gitlab/Github en python/VS code. Het doel is om uiteindelijk al mijn vakantie locaties waar ik ooit ben geweest op te slaan en uit te breiden. Ik wil nog wat meer experimenteren met wat andere coole dingen maar voor nu is dat het doel. Experimenteren en oefenen. Mocht je gebruik willen maken van mijn code, ga je gang!
