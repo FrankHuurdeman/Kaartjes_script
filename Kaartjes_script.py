@@ -6,6 +6,12 @@ import folium
 from geopy.geocoders import Nominatim
 import time
 import wikipediaapi
+import wikipedia
+import warnings
+from urllib.parse import quote
+
+# Opschorten van waarschuwingen voor de wikipedia packages
+warnings.filterwarnings("ignore", category=UserWarning, module="wikipedia")
 
 # Schrijven functie voor het ophalen van de OSM gegeven
 def get_coordinates(city_name):
@@ -24,12 +30,32 @@ def get_coordinates(city_name):
 
 #Schrijven van functie voor het ophalen van de wikipedia gegevens
 def get_wikipedia_info(city):
-    wiki = wikipediaapi.Wikipedia(language='nl', user_agent="Project_kaartje_maken_met_wiki_info")
-    page = wiki.page(city)
-    if page.exists():
-        return page.summary
-    else:
-        return "Geen recente info beschikbaar"
+    wikipedia.set_lang('nl')  # Set the language to Dutch
+    try:
+        # First use wikipediaapi for summary
+        wiki = wikipediaapi.Wikipedia(language='nl', user_agent="Project_kaartje_maken_met_wiki_info")
+        page = wiki.page(city)
+        
+        if page.exists():
+            summary = page.summary
+
+            # Now use wikipedia package to get images
+            images = wikipedia.page(city).images  # Using wikipedia for image fetching
+            return summary, images
+
+        else:
+            return "Geen recente info beschikbaar", []
+
+    except wikipedia.exceptions.DisambiguationError as e:
+        return f"Meerdere opties gevonden: {e.options[0]}", []
+    except wikipedia.exceptions.PageError:
+        return "Geen recente info beschikbaar", []
+
+def title_to_commons_url(title):
+    # Remove any "Bestand:" or "File:" prefix, which is common for Wikimedia image titles
+    filename = title.replace("Bestand:", "").replace("File:", "")
+    # URL-encode the filename to handle special characters
+    return f"https://commons.wikimedia.org/wiki/Special:FilePath/{quote(filename)}?width=500"
 
 
 locations_list = [
@@ -39,7 +65,7 @@ locations_list = [
     ("Maastricht", "Netherlands"),
     ("Leeuwarden", "Netherlands"),
     ("Amsterdam", "Netherlands"),
-    ("Utrecht", "Netherlands"),
+    ("Utrecht (city)", "Netherlands"),
     ("Zwolle", "Netherlands"),
     ("Den Haag", "Netherlands"),
     ("Hilversum", "Netherlands"),
@@ -130,12 +156,20 @@ print("Ophalen van coordinaten is gelukt")
 m = folium.Map(location=[52.0907, 13.2395], zoom_start = 3)
 
 for location, coords in locations_coords.items():
-    info = get_wikipedia_info(location)
+    summary, images = get_wikipedia_info(location)  # Unpack the tuple
+    
+    popup_content = summary
+    if images:
+        # Add the first image (if any) to the popup
+        image_url = title_to_commons_url(images[0])  # Using the first image
+        popup_content += f"<br><img src='{image_url}' width='100%'>"  # Add image below the summary
+
+    # Create the map marker with the popup content
     folium.Marker(
-        location = coords, 
-        popup=folium.Popup(info, max_width=300),
+        location=coords,
+        popup=folium.Popup(popup_content, max_width=300),
         tooltip=location
-        ).add_to(m)
+    ).add_to(m)
 
 m.save(r"Kaartjes_script\index.html")
 print("Kaart opgeslagen als 'index.html' lets go.")
