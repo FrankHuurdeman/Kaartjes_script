@@ -1,3 +1,11 @@
+# OVerzicht van wat ik in dit script nog wil toevegen/aanpassen/ideetjes
+# - Wikipedia DB beter ophalen/betere steden
+# - Aanpassen van wat specifiekere stadsnamen zodat wikidb beter werkt
+# - Verschilleden soorten markers per gebied
+# - Een klein laagje kleur over landen waar markers in staan
+# - Fixen van ophalen afbeeldingen
+# - Met script app applicatie maken waarmee ik de lijst van plaatsen kan update ipv in het script zelf hard code
+
 # Importeren benodigde packages
 
 print("Script is begonnen met draaien")
@@ -47,7 +55,13 @@ def get_wikipedia_info(city):
             return "Geen recente info beschikbaar", []
 
     except wikipedia.exceptions.DisambiguationError as e:
-        return f"Meerdere opties gevonden: {e.options[0]}", []
+        try:
+            new_title = e.options[0]
+            print(f"Let op: '{city}' is onduidelijk. Probeer '{new_title}' in plaats daarvan.")
+            return get_wikipedia_info(new_title)
+        except Exception as e2:
+            return "Geen recente info beschikbaar", []
+
     except wikipedia.exceptions.PageError:
         return "Geen recente info beschikbaar", []
 
@@ -63,7 +77,7 @@ locations_list = [
     ("Nieuwpoort", "Netherlands"),
     ("Rotterdam", "Netherlands"),
     ("Maastricht", "Netherlands"),
-    ("Leeuwarden", "Netherlands"),
+    ("Leeuwarden (stad)", "Netherlands"),
     ("Amsterdam", "Netherlands"),
     ("Utrecht (city)", "Netherlands"),
     ("Zwolle", "Netherlands"),
@@ -83,14 +97,14 @@ locations_list = [
     ("Hannover", "Germany"),
     ("Esslingen", "Germany"),
     ("Trier", "Germany"),
-    ("Bremen", "Germany"),
+    ("Bremen (stad)", "Germany"),
 
     ("Brugge", "Belgium"),
     ("Antwerpen", "Belgium"),
     ("La Roche-en-Ardenne", "Belgium"),
     ("Bouillon", "Belgium"),
 
-    ("London", "England"),
+    ("Londen", "England"),
 
     ("Paris", "France"),
     ("Avignon", "France"),
@@ -99,7 +113,7 @@ locations_list = [
     ("Barcelona", "Spain"),
 
     ("Verona", "Italy"),
-    ("Venice", "Italy"),
+    ("Venice (city)", "Italy"),
     ("Feltre", "Italy"),
 
     ("Interlaken", "Switzerland"),
@@ -107,14 +121,14 @@ locations_list = [
     ("Zagreb", "Croatia"),
     ("Split", "Croatia"),
 
-    ("Vienna", "Austria"),
+    ("Wenen", "Austria"),
 
     ("Wroclaw", "Poland"),
 
-    ("Prague", "Czech Republic"),
+    ("Prague (stad)", "Czech Republic"),
 
-    ("Sami", "Greece"),
-    ("Kamari", "Greece"),
+    ("Kefalonia", "Greece"),
+    ("Santorini", "Greece"),
 
     ("Copenhagen", "Denmark"),
     ("Roskilde", "Denmark"),
@@ -140,9 +154,10 @@ locations_list = [
     ("Sydalen", "Norway"),
     ("Leknes", "Norway"),
     ("Reine", "Norway"),
-    ("A", "Norway")
+    ("Å", "Norway")
 ]
 
+print(locations_list)
 print("Verwerken in lijst is gelukt")
  
 locations_coords = {}
@@ -151,6 +166,7 @@ for location, country in locations_list:
     coords = get_coordinates(f"{location}, {country}")
     locations_coords[location] = coords  
 
+print(locations_coords)
 print("Ophalen van coordinaten is gelukt")
      
 m = folium.Map(location=[52.0907, 13.2395], zoom_start = 3)
@@ -172,4 +188,8 @@ for location, coords in locations_coords.items():
     ).add_to(m)
 
 m.save(r"Kaartjes_script\index.html")
+
 print("Kaart opgeslagen als 'index.html' lets go.")
+
+print(images)
+print(summary)
